@@ -7,25 +7,23 @@ import {
   DataType,
   DeletedAt,
   ForeignKey,
-  HasMany,
   Model,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
-import { Topics } from '.';
-import { UserQuizzes } from './user-quizzes.entity';
+import { Chapters, Subjects } from '.';
 
 @Table({
-  tableName: 'quizzes',
+  tableName: 'assesments',
   indexes: [
     {
       using: 'BTREE',
-      name: 'quizzes_search_fields',
-      fields: ['question'],
+      name: 'assesments_search_fields',
+      fields: ['subject_id', 'chapter_id'],
     },
     {
       using: 'BTREE',
-      name: 'quizzes_deleted_at_fields',
+      name: 'assesments_deleted_at_fields',
       fields: ['deleted_at'],
       where: {
         deleted_at: {
@@ -35,7 +33,7 @@ import { UserQuizzes } from './user-quizzes.entity';
     },
   ],
 })
-export class Quizzes extends Model<Quizzes> {
+export class Assesments extends Model<Assesments> {
   @Column({
     allowNull: false,
     primaryKey: true,
@@ -44,24 +42,31 @@ export class Quizzes extends Model<Quizzes> {
   })
   id: number;
 
-  @ForeignKey(() => Topics)
+  @ForeignKey(() => Subjects)
   @Column({
     type: DataType.INTEGER,
-    field: 'topic_id',
+    field: 'subject_id',
   })
-  topicId: number;
+  subjectId: number;
+
+  @ForeignKey(() => Chapters)
+  @Column({
+    type: DataType.INTEGER,
+    field: 'chapter_id',
+  })
+  chapterId: number;
 
   @Column({
     type: DataType.STRING,
-    field: 'question',
+    field: 'pass_score',
   })
-  question: string;
+  passScore: string;
 
   @Column({
     type: DataType.STRING,
-    field: 'correct_answer_explanation',
+    field: 'type',
   })
-  correctAnswerExplanation: string;
+  type: string;
 
   // Override Sequelize Annotations createdAt, updatedAt and deletedAt
   @CreatedAt
@@ -90,9 +95,9 @@ export class Quizzes extends Model<Quizzes> {
 
   paranoid: true;
 
-  @BelongsTo(() => Topics)
-  topics: Topics;
+  @BelongsTo(() => Subjects)
+  subjects: Subjects;
 
-  @HasMany(() => UserQuizzes)
-  userQuizzes: UserQuizzes;
+  @BelongsTo(() => Chapters)
+  chapters: Chapters;
 }

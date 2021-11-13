@@ -14,7 +14,7 @@ import {
   UpdatedAt,
 } from 'sequelize-typescript';
 import { Subjects } from '.';
-import { Exams } from './exams.entity';
+import { Assesments } from './assesments.entity';
 import { Topics } from './topics.entity';
 
 @Table({
@@ -89,8 +89,8 @@ export class Chapters extends Model<Chapters> {
   @BelongsTo(() => Subjects)
   subjects: Subjects;
 
-  @HasOne(() => Exams)
-  exams: Exams;
+  @HasOne(() => Assesments)
+  assesments: Assesments;
 
   @HasMany(() => Topics)
   topics: Topics;

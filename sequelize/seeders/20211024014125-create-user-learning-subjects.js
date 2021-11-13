@@ -7,7 +7,13 @@
 
 const tableName = 'user_learning_subjects';
 /** Dummy Data */
-const dataUserLearningSubjects = [];
+const dataUserLearningSubjects = [
+  {
+    user_learning_journey_id: 1,
+    subject_id: 1,
+    status: 'unlock',
+  },
+];
 
 module.exports = {
   up: async (queryInterface) => {

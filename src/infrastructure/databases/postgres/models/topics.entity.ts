@@ -74,10 +74,16 @@ export class Topics extends Model<Topics> {
   topicAuthor: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.TEXT,
     field: 'material_explanation',
   })
   materialExplanation: string;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    field: 'is_bonus_content',
+  })
+  isBonusContent: boolean;
 
   // Override Sequelize Annotations createdAt, updatedAt and deletedAt
   @CreatedAt

@@ -7,24 +7,23 @@ import {
   DataType,
   DeletedAt,
   ForeignKey,
-  HasOne,
   Model,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
-import { Exams, UserExamAnswers } from '.';
-
+import { Assesments } from './assesments.entity';
+import { BankQuestions } from './bank-questions.entity';
 @Table({
-  tableName: 'exam_answer_options',
+  tableName: 'assesment_questions',
   indexes: [
     {
       using: 'BTREE',
-      name: 'exam_answer_options_search_fields',
-      fields: ['answer_text'],
+      name: 'assesment_questions_search_fields',
+      fields: ['assesment_id'],
     },
     {
       using: 'BTREE',
-      name: 'exam_answer_options_deleted_at_fields',
+      name: 'assesment_questions_deleted_at_fields',
       fields: ['deleted_at'],
       where: {
         deleted_at: {
@@ -34,7 +33,7 @@ import { Exams, UserExamAnswers } from '.';
     },
   ],
 })
-export class ExamAnswerOptions extends Model<ExamAnswerOptions> {
+export class AssesmentQuestions extends Model<AssesmentQuestions> {
   @Column({
     allowNull: false,
     primaryKey: true,
@@ -43,24 +42,19 @@ export class ExamAnswerOptions extends Model<ExamAnswerOptions> {
   })
   id: number;
 
-  @ForeignKey(() => Exams)
+  @ForeignKey(() => Assesments)
   @Column({
     type: DataType.INTEGER,
-    field: 'exam_id',
+    field: 'assesment_id',
   })
-  examId: number;
+  assesmentId: number;
 
+  @ForeignKey(() => BankQuestions)
   @Column({
-    type: DataType.STRING,
-    field: 'answer_text',
+    type: DataType.INTEGER,
+    field: 'bank_question_id',
   })
-  answerText: string;
-
-  @Column({
-    type: DataType.BOOLEAN,
-    field: 'correction_type',
-  })
-  correctionType: boolean;
+  bankQuestionId: number;
 
   @Column({
     type: DataType.INTEGER,
@@ -95,9 +89,9 @@ export class ExamAnswerOptions extends Model<ExamAnswerOptions> {
 
   paranoid: true;
 
-  @BelongsTo(() => Exams)
-  exams: Exams;
+  @BelongsTo(() => Assesments)
+  assesments: Assesments;
 
-  @HasOne(() => UserExamAnswers)
-  userExamAnswers: UserExamAnswers;
+  @BelongsTo(() => BankQuestions)
+  bankQuestions: BankQuestions;
 }

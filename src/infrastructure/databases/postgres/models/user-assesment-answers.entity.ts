@@ -7,25 +7,24 @@ import {
   DataType,
   DeletedAt,
   ForeignKey,
-  HasMany,
   Model,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
-import { Quizzes, Users } from '.';
-import { UserQuizAnswers } from './user-quiz-answers.entity';
+import { UserAssesments } from '.';
+import { AnswerOptions } from './answer-options.entity';
 
 @Table({
-  tableName: 'user_quizzes',
+  tableName: 'user_assesment_answers',
   indexes: [
     {
       using: 'BTREE',
-      name: 'user_quizzes_search_fields',
-      fields: ['quiz_id', 'user_id'],
+      name: 'user_assesment_answers_search_fields',
+      fields: ['user_assesment_id'],
     },
     {
       using: 'BTREE',
-      name: 'user_quizzes_deleted_at_fields',
+      name: 'user_assesment_answers_deleted_at_fields',
       fields: ['deleted_at'],
       where: {
         deleted_at: {
@@ -35,7 +34,7 @@ import { UserQuizAnswers } from './user-quiz-answers.entity';
     },
   ],
 })
-export class UserQuizzes extends Model<UserQuizzes> {
+export class UserAssesmentAnswers extends Model<UserAssesmentAnswers> {
   @Column({
     allowNull: false,
     primaryKey: true,
@@ -44,37 +43,19 @@ export class UserQuizzes extends Model<UserQuizzes> {
   })
   id: number;
 
-  @ForeignKey(() => Users)
+  @ForeignKey(() => UserAssesments)
   @Column({
     type: DataType.INTEGER,
-    field: 'user_id',
+    field: 'user_assesment_id',
   })
-  userId: number;
+  userAssesmentId: number;
 
-  @ForeignKey(() => Quizzes)
+  @ForeignKey(() => AnswerOptions)
   @Column({
     type: DataType.INTEGER,
-    field: 'quiz_id',
+    field: 'answer_option_id',
   })
-  quizId: number;
-
-  @Column({
-    type: DataType.INTEGER,
-    field: 'score',
-  })
-  score: number;
-
-  @Column({
-    type: DataType.STRING,
-    field: 'question',
-  })
-  question: string;
-
-  @Column({
-    type: DataType.STRING,
-    field: 'correct_answer_explanation',
-  })
-  correctAnswerExplanation: string;
+  answerOptionId: number;
 
   // Override Sequelize Annotations createdAt, updatedAt and deletedAt
   @CreatedAt
@@ -103,12 +84,9 @@ export class UserQuizzes extends Model<UserQuizzes> {
 
   paranoid: true;
 
-  @BelongsTo(() => Users)
-  users: Users;
+  @BelongsTo(() => UserAssesments)
+  userAssesments: UserAssesments;
 
-  @BelongsTo(() => Quizzes)
-  quizzes: Quizzes;
-
-  @HasMany(() => UserQuizAnswers)
-  userQuizAnswers: UserQuizAnswers;
+  @BelongsTo(() => AnswerOptions)
+  answerOptions: AnswerOptions;
 }

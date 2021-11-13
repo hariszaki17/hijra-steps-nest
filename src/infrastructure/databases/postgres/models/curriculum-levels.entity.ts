@@ -54,7 +54,7 @@ export class CurriculumLevels extends Model<CurriculumLevels> {
   sequence: number;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.TEXT,
     field: 'description',
   })
   description: string;

@@ -7,25 +7,23 @@ import {
   DataType,
   DeletedAt,
   ForeignKey,
-  HasOne,
   Model,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
-import { Quizzes } from '.';
-import { UserQuizAnswers } from './user-quiz-answers.entity';
+import { BankQuestions } from './bank-questions.entity';
 
 @Table({
-  tableName: 'quiz_answer_options',
+  tableName: 'answer_options',
   indexes: [
     {
       using: 'BTREE',
-      name: 'quiz_answer_options_search_fields',
-      fields: ['quiz_id', 'answer_text'],
+      name: 'answer_options_search_fields',
+      fields: ['bank_question_id', 'answer_text'],
     },
     {
       using: 'BTREE',
-      name: 'quiz_answer_options_deleted_at_fields',
+      name: 'answer_options_deleted_at_fields',
       fields: ['deleted_at'],
       where: {
         deleted_at: {
@@ -35,7 +33,7 @@ import { UserQuizAnswers } from './user-quiz-answers.entity';
     },
   ],
 })
-export class QuizAnswerOptions extends Model<QuizAnswerOptions> {
+export class AnswerOptions extends Model<AnswerOptions> {
   @Column({
     allowNull: false,
     primaryKey: true,
@@ -44,12 +42,12 @@ export class QuizAnswerOptions extends Model<QuizAnswerOptions> {
   })
   id: number;
 
-  @ForeignKey(() => Quizzes)
+  @ForeignKey(() => BankQuestions)
   @Column({
     type: DataType.INTEGER,
-    field: 'quiz_id',
+    field: 'bank_question_id',
   })
-  quizId: number;
+  bankQuestionId: number;
 
   @Column({
     type: DataType.STRING,
@@ -59,15 +57,15 @@ export class QuizAnswerOptions extends Model<QuizAnswerOptions> {
 
   @Column({
     type: DataType.BOOLEAN,
-    field: 'correction_type',
+    field: 'is_correct',
   })
-  correction_type: boolean;
+  isCorrect: boolean;
 
   @Column({
-    type: DataType.INTEGER,
-    field: 'marks',
+    type: DataType.STRING,
+    field: 'correct_answer_explanation',
   })
-  marks: number;
+  correctAnswerExplanation: string;
 
   // Override Sequelize Annotations createdAt, updatedAt and deletedAt
   @CreatedAt
@@ -96,9 +94,6 @@ export class QuizAnswerOptions extends Model<QuizAnswerOptions> {
 
   paranoid: true;
 
-  @BelongsTo(() => Quizzes)
-  quizzes: Quizzes;
-
-  @HasOne(() => UserQuizAnswers)
-  userQuizAnswers: UserQuizAnswers;
+  @BelongsTo(() => BankQuestions)
+  bankQuestions: BankQuestions;
 }

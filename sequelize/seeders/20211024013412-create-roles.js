@@ -10,7 +10,7 @@ const tableName = 'roles';
 const dataRoles = [
   {
     user_id: 1,
-    role_type: 'user',
+    role_type: 'admin',
   },
 ];
 

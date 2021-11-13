@@ -9,9 +9,9 @@ const tableName = 'users';
 /** Dummy Data */
 const dataUsers = [
   {
-    username: 'user123',
-    password: '123456',
-    email: 'user@mail.com',
+    username: 'Laksamana Siganteng Adhito',
+    password: 'Gantengbangetsolehciat',
+    email: 'Lzgantengbanget@gmail.com',
   },
 ];
 

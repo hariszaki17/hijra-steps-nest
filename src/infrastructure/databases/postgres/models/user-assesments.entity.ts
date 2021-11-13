@@ -12,20 +12,20 @@ import {
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
-import { Exams, Users } from '.';
-import { UserExamAnswers } from './user-exam-answers.entity';
+import { UserAssesmentAnswers, Users } from '.';
+import { Assesments } from './assesments.entity';
 
 @Table({
-  tableName: 'user_exams',
+  tableName: 'user_assesments',
   indexes: [
     {
       using: 'BTREE',
-      name: 'user_exams_search_fields',
-      fields: ['exam_id'],
+      name: 'user_assesments_search_fields',
+      fields: ['assesment_id'],
     },
     {
       using: 'BTREE',
-      name: 'user_exams_deleted_at_fields',
+      name: 'user_assesments_deleted_at_fields',
       fields: ['deleted_at'],
       where: {
         deleted_at: {
@@ -35,7 +35,7 @@ import { UserExamAnswers } from './user-exam-answers.entity';
     },
   ],
 })
-export class UserExams extends Model<UserExams> {
+export class UserAssesments extends Model<UserAssesments> {
   @Column({
     allowNull: false,
     primaryKey: true,
@@ -44,12 +44,12 @@ export class UserExams extends Model<UserExams> {
   })
   id: number;
 
-  @ForeignKey(() => Exams)
+  @ForeignKey(() => Assesments)
   @Column({
     type: DataType.INTEGER,
-    field: 'exam_id',
+    field: 'assesment_id',
   })
-  examId: number;
+  assesmentId: number;
 
   @ForeignKey(() => Users)
   @Column({
@@ -94,6 +94,9 @@ export class UserExams extends Model<UserExams> {
   @BelongsTo(() => Users)
   users: Users;
 
-  @HasMany(() => UserExamAnswers)
-  userExamAnswers: UserExamAnswers;
+  @BelongsTo(() => Assesments)
+  assesments: Assesments;
+
+  @HasMany(() => UserAssesmentAnswers)
+  userAssesmentAnswers: UserAssesmentAnswers;
 }

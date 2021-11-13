@@ -5,9 +5,14 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-unused-vars */
 
-const tableName = 'user_exams';
+const tableName = 'user_assesment_answers';
 /** Dummy Data */
-const dataUserExams = [];
+const dataUserAssesmentAnswers = [
+  {
+    user_assesment_id: 1,
+    answer_option_id: 1,
+  },
+];
 
 module.exports = {
   up: async (queryInterface) => {
@@ -15,8 +20,8 @@ module.exports = {
       `SELECT * FROM ${tableName} limit 1;`,
       { raw: true, type: 'SELECT' },
     );
-    if (result.length < 1 && dataUserExams.length > 0) {
-      await queryInterface.bulkInsert(`${tableName}`, dataUserExams);
+    if (result.length < 1 && dataUserAssesmentAnswers.length > 0) {
+      await queryInterface.bulkInsert(`${tableName}`, dataUserAssesmentAnswers);
     }
   },
 

@@ -1,9 +1,9 @@
-import { QUIZ_REPOSITORY } from 'src/infrastructure/constants/repository.constant';
-import { Quizzes } from 'src/infrastructure/databases/postgres/models';
+import { ASSESMENT_REPOSITORY } from 'src/infrastructure/constants/repository.constant';
+import { Assesments } from 'src/infrastructure/databases/postgres/models/assesments.entity';
 
 export const quizV1Providers = [
   {
-    provide: QUIZ_REPOSITORY,
-    useValue: Quizzes,
+    provide: ASSESMENT_REPOSITORY,
+    useValue: Assesments,
   },
 ];

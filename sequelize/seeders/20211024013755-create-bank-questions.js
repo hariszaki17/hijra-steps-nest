@@ -5,9 +5,14 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-unused-vars */
 
-const tableName = 'exams';
+const tableName = 'bank_questions';
 /** Dummy Data */
-const dataExams = [];
+const dataBankQuestion = [
+  {
+    bank_question:
+      'Siapakah satu satunya tuhan yang wajib kita ibadahi dengan benar?'
+  },
+];
 
 module.exports = {
   up: async (queryInterface) => {
@@ -15,8 +20,8 @@ module.exports = {
       `SELECT * FROM ${tableName} limit 1;`,
       { raw: true, type: 'SELECT' },
     );
-    if (result.length < 1 && dataExams.length > 0) {
-      await queryInterface.bulkInsert(`${tableName}`, dataExams);
+    if (result.length < 1 && dataBankQuestion.length > 0) {
+      await queryInterface.bulkInsert(`${tableName}`, dataBankQuestion);
     }
   },
 

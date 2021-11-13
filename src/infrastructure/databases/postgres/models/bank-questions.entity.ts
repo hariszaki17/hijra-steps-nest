@@ -1,32 +1,28 @@
 import { Op, Sequelize } from 'sequelize';
 // Table Structure
 import {
-  BelongsTo,
   Column,
   CreatedAt,
   DataType,
   DeletedAt,
-  ForeignKey,
   HasMany,
   Model,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
-import { Subjects } from '.';
-import { Chapters } from './chapters.entity';
-import { ExamAnswerOptions } from './exam-answer-options.entity';
+import { AnswerOptions } from './answer-options.entity';
 
 @Table({
-  tableName: 'exams',
+  tableName: 'bank_questions',
   indexes: [
     {
       using: 'BTREE',
-      name: 'exams_search_fields',
-      fields: ['question'],
+      name: 'bank_questions_search_fields',
+      fields: ['bank_question'],
     },
     {
       using: 'BTREE',
-      name: 'exams_deleted_at_fields',
+      name: 'bank_questions_deleted_at_fields',
       fields: ['deleted_at'],
       where: {
         deleted_at: {
@@ -36,7 +32,7 @@ import { ExamAnswerOptions } from './exam-answer-options.entity';
     },
   ],
 })
-export class Exams extends Model<Exams> {
+export class BankQuestions extends Model<BankQuestions> {
   @Column({
     allowNull: false,
     primaryKey: true,
@@ -45,31 +41,11 @@ export class Exams extends Model<Exams> {
   })
   id: number;
 
-  @ForeignKey(() => Subjects)
-  @Column({
-    type: DataType.INTEGER,
-    field: 'subject_id',
-  })
-  subjectId: number;
-
-  @ForeignKey(() => Chapters)
-  @Column({
-    type: DataType.INTEGER,
-    field: 'chapter_id',
-  })
-  chapterId: number;
-
   @Column({
     type: DataType.STRING,
-    field: 'question',
+    field: 'bank_question',
   })
-  question: string;
-
-  @Column({
-    type: DataType.INTEGER,
-    field: 'pass_score',
-  })
-  passScore: number;
+  bankQuestion: string;
 
   // Override Sequelize Annotations createdAt, updatedAt and deletedAt
   @CreatedAt
@@ -98,12 +74,6 @@ export class Exams extends Model<Exams> {
 
   paranoid: true;
 
-  @BelongsTo(() => Subjects)
-  subjects: Subjects;
-
-  @BelongsTo(() => Chapters)
-  chapters: Chapters;
-
-  @HasMany(() => ExamAnswerOptions)
-  examAnswerOptions: ExamAnswerOptions;
+  @HasMany(() => AnswerOptions)
+  answeOptions: AnswerOptions;
 }

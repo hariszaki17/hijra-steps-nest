@@ -14,7 +14,7 @@ const dataSubjects = [
     subject_author: 'Ustadz Muhammad Fulan',
     sequence: 1,
     description: '',
-    mandatory_type: ''
+    is_mandatory: true,
   },
 ];
 

@@ -5,9 +5,16 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-unused-vars */
 
-const tableName = 'exam_answer_options';
+const tableName = 'answer_options';
 /** Dummy Data */
-const dataExamAnswerOptions = [];
+const dataAnswerOptions = [
+  {
+    bank_question_id: 1,
+    answer_text: 'Allah Ar-Rahman',
+    is_correct: true,
+    correct_answer_explanation: 'sample text',
+  },
+];
 
 module.exports = {
   up: async (queryInterface) => {
@@ -15,8 +22,8 @@ module.exports = {
       `SELECT * FROM ${tableName} limit 1;`,
       { raw: true, type: 'SELECT' },
     );
-    if (result.length < 1 && dataExamAnswerOptions.length > 0) {
-      await queryInterface.bulkInsert(`${tableName}`, dataExamAnswerOptions);
+    if (result.length < 1 && dataAnswerOptions.length > 0) {
+      await queryInterface.bulkInsert(`${tableName}`, dataAnswerOptions);
     }
   },
 

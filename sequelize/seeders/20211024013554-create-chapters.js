@@ -7,7 +7,12 @@
 
 const tableName = 'chapters';
 /** Dummy Data */
-const dataChapters = [];
+const dataChapters = [
+  {
+    subject_id: 1,
+    title: 'Empat perkara yang wajib dipelajari',
+  },
+];
 
 module.exports = {
   up: async (queryInterface) => {

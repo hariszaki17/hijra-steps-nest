@@ -11,7 +11,7 @@ const dataUserDetails = [
   {
     user_id: 1,
     name: 'dito',
-    dob: new Date(),
+    dob: new Date('1998-04-26T17:00:00.000Z'),
     subscription_type: 'premium',
   },
 ];
