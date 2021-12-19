@@ -13,9 +13,9 @@ import {
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
+import { Assesments } from './assesments.entity';
 import { Chapters } from './chapters.entity';
 import { CurriculumLevels } from './curriculum-levels.entity';
-import { Exams } from './exams.entity';
 import { UserLearningSubjects } from './user-learning-subjects.entity';
 
 @Table({
@@ -79,10 +79,16 @@ export class Subjects extends Model<Subjects> {
   description: string;
 
   @Column({
-    type: DataType.STRING,
-    field: 'mandatory_type',
+    type: DataType.BOOLEAN,
+    field: 'is_mandatory',
   })
-  mandatoryType: string;
+  isMandatory: boolean;
+
+  @Column({
+    type: DataType.STRING,
+    field: 'image_url',
+  })
+  imageUrl: string;
 
   // Override Sequelize Annotations createdAt, updatedAt and deletedAt
   @CreatedAt
@@ -117,9 +123,9 @@ export class Subjects extends Model<Subjects> {
   @HasOne(() => UserLearningSubjects)
   userLearningSubjects: UserLearningSubjects;
 
-  @HasMany(() => Exams)
-  exams: Exams;
+  @HasMany(() => Assesments)
+  assesments: Assesments;
 
   @HasMany(() => Chapters)
-  chapters: Chapters;
+  chapters: Chapters[];
 }

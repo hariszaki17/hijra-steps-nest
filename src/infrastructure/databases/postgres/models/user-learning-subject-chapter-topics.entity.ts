@@ -7,25 +7,23 @@ import {
   DataType,
   DeletedAt,
   ForeignKey,
-  HasMany,
   Model,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
-import { Quizzes, Users } from '.';
-import { UserQuizAnswers } from './user-quiz-answers.entity';
+import { Topics, UserLearningSubjectChapters } from '.';
 
 @Table({
-  tableName: 'user_quizzes',
+  tableName: 'user_learning_subject_chapter_topics',
   indexes: [
     {
       using: 'BTREE',
-      name: 'user_quizzes_search_fields',
-      fields: ['quiz_id', 'user_id'],
+      name: 'user_learning_subject_chapter_topics_search_fields',
+      fields: ['user_learning_subject_chapter_id'],
     },
     {
       using: 'BTREE',
-      name: 'user_quizzes_deleted_at_fields',
+      name: 'user_learning_subject_chapter_topics_deleted_at_fields',
       fields: ['deleted_at'],
       where: {
         deleted_at: {
@@ -35,7 +33,7 @@ import { UserQuizAnswers } from './user-quiz-answers.entity';
     },
   ],
 })
-export class UserQuizzes extends Model<UserQuizzes> {
+export class UserLearningSubjectChapterTopics extends Model<UserLearningSubjectChapterTopics> {
   @Column({
     allowNull: false,
     primaryKey: true,
@@ -44,37 +42,25 @@ export class UserQuizzes extends Model<UserQuizzes> {
   })
   id: number;
 
-  @ForeignKey(() => Users)
+  @ForeignKey(() => UserLearningSubjectChapters)
   @Column({
     type: DataType.INTEGER,
-    field: 'user_id',
+    field: 'user_learning_subject_chapter_id',
   })
-  userId: number;
+  userLearningSubjectChapterId: number;
 
-  @ForeignKey(() => Quizzes)
+  @ForeignKey(() => Topics)
   @Column({
     type: DataType.INTEGER,
-    field: 'quiz_id',
+    field: 'topic_id',
   })
-  quizId: number;
-
-  @Column({
-    type: DataType.INTEGER,
-    field: 'score',
-  })
-  score: number;
+  topicId: number;
 
   @Column({
     type: DataType.STRING,
-    field: 'question',
+    field: 'status',
   })
-  question: string;
-
-  @Column({
-    type: DataType.STRING,
-    field: 'correct_answer_explanation',
-  })
-  correctAnswerExplanation: string;
+  status: string;
 
   // Override Sequelize Annotations createdAt, updatedAt and deletedAt
   @CreatedAt
@@ -103,12 +89,9 @@ export class UserQuizzes extends Model<UserQuizzes> {
 
   paranoid: true;
 
-  @BelongsTo(() => Users)
-  users: Users;
+  @BelongsTo(() => UserLearningSubjectChapters)
+  userLearningSubjectChapters: UserLearningSubjectChapters;
 
-  @BelongsTo(() => Quizzes)
-  quizzes: Quizzes;
-
-  @HasMany(() => UserQuizAnswers)
-  userQuizAnswers: UserQuizAnswers;
+  @BelongsTo(() => Topics)
+  topics: Topics;
 }

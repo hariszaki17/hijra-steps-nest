@@ -11,19 +11,19 @@ import {
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
-import { QuizAnswerOptions, Quizzes, UserQuizzes } from '.';
+import { BankQuestions } from './bank-questions.entity';
 
 @Table({
-  tableName: 'user_quiz_answers',
+  tableName: 'answer_options',
   indexes: [
     {
       using: 'BTREE',
-      name: 'user_quiz_answers_search_fields',
-      fields: ['user_quiz_id'],
+      name: 'answer_options_search_fields',
+      fields: ['bank_question_id', 'answer_text'],
     },
     {
       using: 'BTREE',
-      name: 'user_quiz_answers_deleted_at_fields',
+      name: 'answer_options_deleted_at_fields',
       fields: ['deleted_at'],
       where: {
         deleted_at: {
@@ -33,7 +33,7 @@ import { QuizAnswerOptions, Quizzes, UserQuizzes } from '.';
     },
   ],
 })
-export class UserQuizAnswers extends Model<UserQuizAnswers> {
+export class AnswerOptions extends Model<AnswerOptions> {
   @Column({
     allowNull: false,
     primaryKey: true,
@@ -42,19 +42,30 @@ export class UserQuizAnswers extends Model<UserQuizAnswers> {
   })
   id: number;
 
-  @ForeignKey(() => QuizAnswerOptions)
+  @ForeignKey(() => BankQuestions)
   @Column({
     type: DataType.INTEGER,
-    field: 'quiz_answer_option_id',
+    field: 'bank_question_id',
   })
-  quizAnswerOptionId: number;
+  bankQuestionId: number;
 
-  @ForeignKey(() => UserQuizzes)
   @Column({
-    type: DataType.INTEGER,
-    field: 'user_quiz_id',
+    type: DataType.STRING,
+    field: 'answer_text',
   })
-  userQuizId: number;
+  answerText: string;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    field: 'is_correct',
+  })
+  isCorrect: boolean;
+
+  @Column({
+    type: DataType.STRING,
+    field: 'correct_answer_explanation',
+  })
+  correctAnswerExplanation: string;
 
   // Override Sequelize Annotations createdAt, updatedAt and deletedAt
   @CreatedAt
@@ -83,9 +94,6 @@ export class UserQuizAnswers extends Model<UserQuizAnswers> {
 
   paranoid: true;
 
-  @BelongsTo(() => QuizAnswerOptions)
-  quizAnswerOptions: QuizAnswerOptions;
-
-  @BelongsTo(() => UserQuizzes)
-  userQuizzes: UserQuizzes;
+  @BelongsTo(() => BankQuestions)
+  bankQuestions: BankQuestions;
 }

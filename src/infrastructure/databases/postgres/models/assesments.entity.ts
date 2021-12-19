@@ -7,25 +7,23 @@ import {
   DataType,
   DeletedAt,
   ForeignKey,
-  HasMany,
   Model,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
-import { Exams, Users } from '.';
-import { UserExamAnswers } from './user-exam-answers.entity';
+import { Chapters, Subjects } from '.';
 
 @Table({
-  tableName: 'user_exams',
+  tableName: 'assesments',
   indexes: [
     {
       using: 'BTREE',
-      name: 'user_exams_search_fields',
-      fields: ['exam_id'],
+      name: 'assesments_search_fields',
+      fields: ['subject_id', 'chapter_id'],
     },
     {
       using: 'BTREE',
-      name: 'user_exams_deleted_at_fields',
+      name: 'assesments_deleted_at_fields',
       fields: ['deleted_at'],
       where: {
         deleted_at: {
@@ -35,7 +33,7 @@ import { UserExamAnswers } from './user-exam-answers.entity';
     },
   ],
 })
-export class UserExams extends Model<UserExams> {
+export class Assesments extends Model<Assesments> {
   @Column({
     allowNull: false,
     primaryKey: true,
@@ -44,25 +42,31 @@ export class UserExams extends Model<UserExams> {
   })
   id: number;
 
-  @ForeignKey(() => Exams)
+  @ForeignKey(() => Subjects)
   @Column({
     type: DataType.INTEGER,
-    field: 'exam_id',
+    field: 'subject_id',
   })
-  examId: number;
+  subjectId: number;
 
-  @ForeignKey(() => Users)
+  @ForeignKey(() => Chapters)
   @Column({
     type: DataType.INTEGER,
-    field: 'user_id',
+    field: 'chapter_id',
   })
-  userId: number;
+  chapterId: number;
 
   @Column({
-    type: DataType.INTEGER,
-    field: 'score',
+    type: DataType.STRING,
+    field: 'pass_score',
   })
-  score: number;
+  passScore: string;
+
+  @Column({
+    type: DataType.STRING,
+    field: 'type',
+  })
+  type: string;
 
   // Override Sequelize Annotations createdAt, updatedAt and deletedAt
   @CreatedAt
@@ -91,9 +95,9 @@ export class UserExams extends Model<UserExams> {
 
   paranoid: true;
 
-  @BelongsTo(() => Users)
-  users: Users;
+  @BelongsTo(() => Subjects)
+  subjects: Subjects;
 
-  @HasMany(() => UserExamAnswers)
-  userExamAnswers: UserExamAnswers;
+  @BelongsTo(() => Chapters)
+  chapters: Chapters;
 }

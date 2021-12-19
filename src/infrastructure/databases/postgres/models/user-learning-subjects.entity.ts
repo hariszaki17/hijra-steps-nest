@@ -7,11 +7,13 @@ import {
   DataType,
   DeletedAt,
   ForeignKey,
+  HasMany,
   Model,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
 import { Subjects, UserLearningJourney } from '.';
+import { UserLearningSubjectChapters } from './user-learning-subject-chapters.entity';
 
 @Table({
   tableName: 'user_learning_subjects',
@@ -94,4 +96,7 @@ export class UserLearningSubjects extends Model<UserLearningSubjects> {
 
   @BelongsTo(() => Subjects)
   subjects: Subjects;
+
+  @HasMany(() => UserLearningSubjectChapters)
+  userLearningSubjectChapters: UserLearningSubjectChapters[];
 }

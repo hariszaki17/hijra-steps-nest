@@ -1,31 +1,28 @@
 import { Op, Sequelize } from 'sequelize';
 // Table Structure
 import {
-  BelongsTo,
   Column,
   CreatedAt,
   DataType,
   DeletedAt,
-  ForeignKey,
-  HasOne,
+  HasMany,
   Model,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
-import { Quizzes } from '.';
-import { UserQuizAnswers } from './user-quiz-answers.entity';
+import { AnswerOptions } from './answer-options.entity';
 
 @Table({
-  tableName: 'quiz_answer_options',
+  tableName: 'bank_questions',
   indexes: [
     {
       using: 'BTREE',
-      name: 'quiz_answer_options_search_fields',
-      fields: ['quiz_id', 'answer_text'],
+      name: 'bank_questions_search_fields',
+      fields: ['bank_question'],
     },
     {
       using: 'BTREE',
-      name: 'quiz_answer_options_deleted_at_fields',
+      name: 'bank_questions_deleted_at_fields',
       fields: ['deleted_at'],
       where: {
         deleted_at: {
@@ -35,7 +32,7 @@ import { UserQuizAnswers } from './user-quiz-answers.entity';
     },
   ],
 })
-export class QuizAnswerOptions extends Model<QuizAnswerOptions> {
+export class BankQuestions extends Model<BankQuestions> {
   @Column({
     allowNull: false,
     primaryKey: true,
@@ -44,30 +41,11 @@ export class QuizAnswerOptions extends Model<QuizAnswerOptions> {
   })
   id: number;
 
-  @ForeignKey(() => Quizzes)
-  @Column({
-    type: DataType.INTEGER,
-    field: 'quiz_id',
-  })
-  quizId: number;
-
   @Column({
     type: DataType.STRING,
-    field: 'answer_text',
+    field: 'bank_question',
   })
-  answerText: string;
-
-  @Column({
-    type: DataType.BOOLEAN,
-    field: 'correction_type',
-  })
-  correction_type: boolean;
-
-  @Column({
-    type: DataType.INTEGER,
-    field: 'marks',
-  })
-  marks: number;
+  bankQuestion: string;
 
   // Override Sequelize Annotations createdAt, updatedAt and deletedAt
   @CreatedAt
@@ -96,9 +74,6 @@ export class QuizAnswerOptions extends Model<QuizAnswerOptions> {
 
   paranoid: true;
 
-  @BelongsTo(() => Quizzes)
-  quizzes: Quizzes;
-
-  @HasOne(() => UserQuizAnswers)
-  userQuizAnswers: UserQuizAnswers;
+  @HasMany(() => AnswerOptions)
+  answeOptions: AnswerOptions;
 }

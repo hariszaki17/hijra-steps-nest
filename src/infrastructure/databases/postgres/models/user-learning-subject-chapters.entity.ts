@@ -12,20 +12,20 @@ import {
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
-import { Topics } from '.';
-import { UserQuizzes } from './user-quizzes.entity';
+import { Chapters, UserLearningSubjects } from '.';
+import { UserLearningSubjectChapterTopics } from './user-learning-subject-chapter-topics.entity';
 
 @Table({
-  tableName: 'quizzes',
+  tableName: 'user_learning_subject_chapters',
   indexes: [
     {
       using: 'BTREE',
-      name: 'quizzes_search_fields',
-      fields: ['question'],
+      name: 'user_learning_subject_chapters_search_fields',
+      fields: ['user_learning_subject_id'],
     },
     {
       using: 'BTREE',
-      name: 'quizzes_deleted_at_fields',
+      name: 'user_learning_subject_chapters_deleted_at_fields',
       fields: ['deleted_at'],
       where: {
         deleted_at: {
@@ -35,7 +35,7 @@ import { UserQuizzes } from './user-quizzes.entity';
     },
   ],
 })
-export class Quizzes extends Model<Quizzes> {
+export class UserLearningSubjectChapters extends Model<UserLearningSubjectChapters> {
   @Column({
     allowNull: false,
     primaryKey: true,
@@ -44,24 +44,25 @@ export class Quizzes extends Model<Quizzes> {
   })
   id: number;
 
-  @ForeignKey(() => Topics)
+  @ForeignKey(() => UserLearningSubjects)
   @Column({
     type: DataType.INTEGER,
-    field: 'topic_id',
+    field: 'user_learning_subject_id',
   })
-  topicId: number;
+  userLearningSubjectId: number;
+
+  @ForeignKey(() => Chapters)
+  @Column({
+    type: DataType.INTEGER,
+    field: 'chapter_id',
+  })
+  chapterId: number;
 
   @Column({
     type: DataType.STRING,
-    field: 'question',
+    field: 'status',
   })
-  question: string;
-
-  @Column({
-    type: DataType.STRING,
-    field: 'correct_answer_explanation',
-  })
-  correctAnswerExplanation: string;
+  status: string;
 
   // Override Sequelize Annotations createdAt, updatedAt and deletedAt
   @CreatedAt
@@ -90,9 +91,12 @@ export class Quizzes extends Model<Quizzes> {
 
   paranoid: true;
 
-  @BelongsTo(() => Topics)
-  topics: Topics;
+  @BelongsTo(() => UserLearningSubjects)
+  userLearningSubjects: UserLearningSubjects;
 
-  @HasMany(() => UserQuizzes)
-  userQuizzes: UserQuizzes;
+  @BelongsTo(() => Chapters)
+  chapters: Chapters;
+
+  @HasMany(() => UserLearningSubjectChapterTopics)
+  userLearningSubjectChapterTopics: UserLearningSubjectChapterTopics[];
 }

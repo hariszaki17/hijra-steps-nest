@@ -5,11 +5,13 @@ import {
   CreatedAt,
   DataType,
   DeletedAt,
+  HasMany,
   HasOne,
   Model,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
+import { Subjects } from '.';
 import { UserLearningJourney } from './user-learning-journey.entity';
 
 @Table({
@@ -54,7 +56,7 @@ export class CurriculumLevels extends Model<CurriculumLevels> {
   sequence: number;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.TEXT,
     field: 'description',
   })
   description: string;
@@ -88,4 +90,7 @@ export class CurriculumLevels extends Model<CurriculumLevels> {
 
   @HasOne(() => UserLearningJourney)
   userLearningJourney: UserLearningJourney;
+
+  @HasMany(() => Subjects)
+  subjects: Subjects[];
 }

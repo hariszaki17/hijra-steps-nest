@@ -67,6 +67,12 @@ export class UserDetails extends Model<UserDetails> {
   })
   subscriptionType: string;
 
+  @Column({
+    type: DataType.STRING,
+    field: 'avatar_url',
+  })
+  avatar_url: string;
+
   // Override Sequelize Annotations createdAt, updatedAt and deletedAt
   @CreatedAt
   @Column({

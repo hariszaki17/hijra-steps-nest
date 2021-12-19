@@ -7,24 +7,24 @@ import {
   DataType,
   DeletedAt,
   ForeignKey,
-  HasOne,
   Model,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
-import { Exams, UserExamAnswers } from '.';
+import { UserAssesments } from '.';
+import { AnswerOptions } from './answer-options.entity';
 
 @Table({
-  tableName: 'exam_answer_options',
+  tableName: 'user_assesment_answers',
   indexes: [
     {
       using: 'BTREE',
-      name: 'exam_answer_options_search_fields',
-      fields: ['answer_text'],
+      name: 'user_assesment_answers_search_fields',
+      fields: ['user_assesment_id'],
     },
     {
       using: 'BTREE',
-      name: 'exam_answer_options_deleted_at_fields',
+      name: 'user_assesment_answers_deleted_at_fields',
       fields: ['deleted_at'],
       where: {
         deleted_at: {
@@ -34,7 +34,7 @@ import { Exams, UserExamAnswers } from '.';
     },
   ],
 })
-export class ExamAnswerOptions extends Model<ExamAnswerOptions> {
+export class UserAssesmentAnswers extends Model<UserAssesmentAnswers> {
   @Column({
     allowNull: false,
     primaryKey: true,
@@ -43,30 +43,19 @@ export class ExamAnswerOptions extends Model<ExamAnswerOptions> {
   })
   id: number;
 
-  @ForeignKey(() => Exams)
+  @ForeignKey(() => UserAssesments)
   @Column({
     type: DataType.INTEGER,
-    field: 'exam_id',
+    field: 'user_assesment_id',
   })
-  examId: number;
+  userAssesmentId: number;
 
-  @Column({
-    type: DataType.STRING,
-    field: 'answer_text',
-  })
-  answerText: string;
-
-  @Column({
-    type: DataType.BOOLEAN,
-    field: 'correction_type',
-  })
-  correctionType: boolean;
-
+  @ForeignKey(() => AnswerOptions)
   @Column({
     type: DataType.INTEGER,
-    field: 'marks',
+    field: 'answer_option_id',
   })
-  marks: number;
+  answerOptionId: number;
 
   // Override Sequelize Annotations createdAt, updatedAt and deletedAt
   @CreatedAt
@@ -95,9 +84,9 @@ export class ExamAnswerOptions extends Model<ExamAnswerOptions> {
 
   paranoid: true;
 
-  @BelongsTo(() => Exams)
-  exams: Exams;
+  @BelongsTo(() => UserAssesments)
+  userAssesments: UserAssesments;
 
-  @HasOne(() => UserExamAnswers)
-  userExamAnswers: UserExamAnswers;
+  @BelongsTo(() => AnswerOptions)
+  answerOptions: AnswerOptions;
 }

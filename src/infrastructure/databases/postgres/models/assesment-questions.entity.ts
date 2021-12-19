@@ -7,26 +7,23 @@ import {
   DataType,
   DeletedAt,
   ForeignKey,
-  HasMany,
   Model,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
-import { Subjects } from '.';
-import { Chapters } from './chapters.entity';
-import { ExamAnswerOptions } from './exam-answer-options.entity';
-
+import { Assesments } from './assesments.entity';
+import { BankQuestions } from './bank-questions.entity';
 @Table({
-  tableName: 'exams',
+  tableName: 'assesment_questions',
   indexes: [
     {
       using: 'BTREE',
-      name: 'exams_search_fields',
-      fields: ['question'],
+      name: 'assesment_questions_search_fields',
+      fields: ['assesment_id'],
     },
     {
       using: 'BTREE',
-      name: 'exams_deleted_at_fields',
+      name: 'assesment_questions_deleted_at_fields',
       fields: ['deleted_at'],
       where: {
         deleted_at: {
@@ -36,7 +33,7 @@ import { ExamAnswerOptions } from './exam-answer-options.entity';
     },
   ],
 })
-export class Exams extends Model<Exams> {
+export class AssesmentQuestions extends Model<AssesmentQuestions> {
   @Column({
     allowNull: false,
     primaryKey: true,
@@ -45,31 +42,25 @@ export class Exams extends Model<Exams> {
   })
   id: number;
 
-  @ForeignKey(() => Subjects)
+  @ForeignKey(() => Assesments)
   @Column({
     type: DataType.INTEGER,
-    field: 'subject_id',
+    field: 'assesment_id',
   })
-  subjectId: number;
+  assesmentId: number;
 
-  @ForeignKey(() => Chapters)
+  @ForeignKey(() => BankQuestions)
   @Column({
     type: DataType.INTEGER,
-    field: 'chapter_id',
+    field: 'bank_question_id',
   })
-  chapterId: number;
-
-  @Column({
-    type: DataType.STRING,
-    field: 'question',
-  })
-  question: string;
+  bankQuestionId: number;
 
   @Column({
     type: DataType.INTEGER,
-    field: 'pass_score',
+    field: 'marks',
   })
-  passScore: number;
+  marks: number;
 
   // Override Sequelize Annotations createdAt, updatedAt and deletedAt
   @CreatedAt
@@ -98,12 +89,9 @@ export class Exams extends Model<Exams> {
 
   paranoid: true;
 
-  @BelongsTo(() => Subjects)
-  subjects: Subjects;
+  @BelongsTo(() => Assesments)
+  assesments: Assesments;
 
-  @BelongsTo(() => Chapters)
-  chapters: Chapters;
-
-  @HasMany(() => ExamAnswerOptions)
-  examAnswerOptions: ExamAnswerOptions;
+  @BelongsTo(() => BankQuestions)
+  bankQuestions: BankQuestions;
 }

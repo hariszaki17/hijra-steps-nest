@@ -11,8 +11,8 @@ import {
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
+import { UserAssesments } from '.';
 import { UserDetails } from './user-details.entity';
-import { UserQuizzes } from './user-quizzes.entity';
 
 @Table({
   tableName: 'users',
@@ -55,6 +55,12 @@ export class Users extends Model<Users> {
   })
   password: string;
 
+  @Column({
+    type: DataType.STRING,
+    field: 'email',
+  })
+  email: string;
+
   // Override Sequelize Annotations createdAt, updatedAt and deletedAt
   @CreatedAt
   @Column({
@@ -85,6 +91,6 @@ export class Users extends Model<Users> {
   @HasOne(() => UserDetails)
   userDetails: UserDetails;
 
-  @HasMany(() => UserQuizzes)
-  userQuizzes: UserQuizzes;
+  @HasMany(() => UserAssesments)
+  userAssesments: UserAssesments;
 }
