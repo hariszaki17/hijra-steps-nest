@@ -39,6 +39,8 @@ export class HomeV1UseCase {
     const curriculumLevels: IUsersCurriculum[] = await this.getUserCurriculum(
       userId,
     );
+    console.log(curriculumLevels, '<><><>');
+    
     return filterRecommendation(curriculumLevels);
   }
 

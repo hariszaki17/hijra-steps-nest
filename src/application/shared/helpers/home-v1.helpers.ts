@@ -74,7 +74,7 @@ export const filterRecommendation = (usersCurriculums: IUsersCurriculum[]) => {
   return usersCurriculums
     .map((usersCurriculum) => {
       return usersCurriculum.subjects.find(
-        (subject) => subject.status === 'unlocked',
+        (subject) => subject.status === 'unlocked' || subject.status === 'on_progress',
       );
     })
     .find((e) => e);
