@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import {
   CurriculumLevels,
-  Subjects,
   UserLearningJourney,
   Users,
 } from 'src/infrastructure/databases/postgres/models';

@@ -19,7 +19,6 @@ export const postgresProviders = [
       );
       sequelize.addModels(Object.values(models));
       await sequelize.sync();
-      // await sequelize.sync({ force: true });
       return sequelize;
     },
   },
