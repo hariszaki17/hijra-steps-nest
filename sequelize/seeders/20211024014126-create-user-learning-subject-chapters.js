@@ -12,7 +12,7 @@ const dataUserLearningSubjectChapters = [
     user_learning_subject_id: 1,
     chapter_id: 1,
     status: 'on_progress',
-  }
+  },
 ];
 
 module.exports = {
