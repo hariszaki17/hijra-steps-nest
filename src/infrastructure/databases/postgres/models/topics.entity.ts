@@ -7,11 +7,13 @@ import {
   DataType,
   DeletedAt,
   ForeignKey,
+  HasMany,
   Model,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
 import { Chapters } from '.';
+import { UserLearningSubjectChapterTopics } from './user-learning-subject-chapter-topics.entity';
 
 @Table({
   tableName: 'topics',
@@ -85,6 +87,18 @@ export class Topics extends Model<Topics> {
   })
   isBonusContent: boolean;
 
+  @Column({
+    type: DataType.INTEGER,
+    field: 'sequence',
+  })
+  sequence: number;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    field: 'is_mandatory',
+  })
+  isMandatory: boolean;
+
   // Override Sequelize Annotations createdAt, updatedAt and deletedAt
   @CreatedAt
   @Column({
@@ -114,4 +128,7 @@ export class Topics extends Model<Topics> {
 
   @BelongsTo(() => Chapters)
   chapters: Chapters;
+
+  @HasMany(() => UserLearningSubjectChapterTopics)
+  userLearningSubjectChapterTopics: UserLearningSubjectChapterTopics[];
 }

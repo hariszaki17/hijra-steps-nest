@@ -1,30 +1,31 @@
 import { Op, Sequelize } from 'sequelize';
 // Table Structure
 import {
+  BelongsTo,
   Column,
   CreatedAt,
   DataType,
   DeletedAt,
+  ForeignKey,
   HasMany,
-  HasOne,
   Model,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
-import { Subjects } from '.';
-import { UserLearningJourney } from './user-learning-journey.entity';
+import { Chapters, UserLearningSubjects } from '.';
+import { UserLearningSubjectChapterTopics } from './user-learning-subject-chapter-topics.entity';
 
 @Table({
-  tableName: 'curriculum_levels',
+  tableName: 'user_learning_subject_chapters',
   indexes: [
     {
       using: 'BTREE',
-      name: 'curriculum_levels_search_fields',
-      fields: ['name'],
+      name: 'user_learning_subject_chapters_search_fields',
+      fields: ['user_learning_subject_id'],
     },
     {
       using: 'BTREE',
-      name: 'curriculum_levels_deleted_at_fields',
+      name: 'user_learning_subject_chapters_deleted_at_fields',
       fields: ['deleted_at'],
       where: {
         deleted_at: {
@@ -34,7 +35,7 @@ import { UserLearningJourney } from './user-learning-journey.entity';
     },
   ],
 })
-export class CurriculumLevels extends Model<CurriculumLevels> {
+export class UserLearningSubjectChapters extends Model<UserLearningSubjectChapters> {
   @Column({
     allowNull: false,
     primaryKey: true,
@@ -43,23 +44,25 @@ export class CurriculumLevels extends Model<CurriculumLevels> {
   })
   id: number;
 
-  @Column({
-    type: DataType.STRING,
-    field: 'name',
-  })
-  name: string;
-
+  @ForeignKey(() => UserLearningSubjects)
   @Column({
     type: DataType.INTEGER,
-    field: 'sequence',
+    field: 'user_learning_subject_id',
   })
-  sequence: number;
+  userLearningSubjectId: number;
+
+  @ForeignKey(() => Chapters)
+  @Column({
+    type: DataType.INTEGER,
+    field: 'chapter_id',
+  })
+  chapterId: number;
 
   @Column({
-    type: DataType.TEXT,
-    field: 'description',
+    type: DataType.STRING,
+    field: 'status',
   })
-  description: string;
+  status: string;
 
   // Override Sequelize Annotations createdAt, updatedAt and deletedAt
   @CreatedAt
@@ -88,9 +91,12 @@ export class CurriculumLevels extends Model<CurriculumLevels> {
 
   paranoid: true;
 
-  @HasOne(() => UserLearningJourney)
-  userLearningJourney: UserLearningJourney;
+  @BelongsTo(() => UserLearningSubjects)
+  userLearningSubjects: UserLearningSubjects;
 
-  @HasMany(() => Subjects)
-  subjects: Subjects[];
+  @BelongsTo(() => Chapters)
+  chapters: Chapters;
+
+  @HasMany(() => UserLearningSubjectChapterTopics)
+  userLearningSubjectChapterTopics: UserLearningSubjectChapterTopics[];
 }

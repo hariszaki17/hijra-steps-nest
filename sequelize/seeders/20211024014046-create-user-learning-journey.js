@@ -11,7 +11,7 @@ const dataUserLearningJourney = [
   {
     user_id: 1,
     curriculum_level_id: 1,
-    status: 'unlock',
+    status: 'completed',
   },
 ];
 

@@ -84,6 +84,12 @@ export class Subjects extends Model<Subjects> {
   })
   isMandatory: boolean;
 
+  @Column({
+    type: DataType.STRING,
+    field: 'image_url',
+  })
+  imageUrl: string;
+
   // Override Sequelize Annotations createdAt, updatedAt and deletedAt
   @CreatedAt
   @Column({
@@ -121,5 +127,5 @@ export class Subjects extends Model<Subjects> {
   assesments: Assesments;
 
   @HasMany(() => Chapters)
-  chapters: Chapters;
+  chapters: Chapters[];
 }

@@ -5,17 +5,14 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-unused-vars */
 
-const tableName = 'user_details';
+const tableName = 'user_learning_subject_chapters';
 /** Dummy Data */
-const dataUserDetails = [
+const dataUserLearningSubjectChapters = [
   {
-    user_id: 1,
-    name: 'Laksamana Adhito',
-    dob: new Date('1998-04-26T17:00:00.000Z'),
-    subscription_type: 'premium',
-    avatar_url:
-      'https://drive.google.com/uc?id=1GRb3OOJ0TgEZRRLMkPrNucvHE_XVP77s',
-  },
+    user_learning_subject_id: 1,
+    chapter_id: 1,
+    status: 'on_progress',
+  }
 ];
 
 module.exports = {
@@ -24,8 +21,11 @@ module.exports = {
       `SELECT * FROM ${tableName} limit 1;`,
       { raw: true, type: 'SELECT' },
     );
-    if (result.length < 1 && dataUserDetails.length > 0) {
-      await queryInterface.bulkInsert(`${tableName}`, dataUserDetails);
+    if (result.length < 1 && dataUserLearningSubjectChapters.length > 0) {
+      await queryInterface.bulkInsert(
+        `${tableName}`,
+        dataUserLearningSubjectChapters,
+      );
     }
   },
 

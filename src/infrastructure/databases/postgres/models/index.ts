@@ -15,3 +15,5 @@ export * from './user-assesments.entity';
 export * from './user-assesment-answers.entity';
 export * from './bank-questions.entity';
 export * from './answer-options.entity';
+export * from './user-learning-subject-chapters.entity';
+export * from './user-learning-subject-chapter-topics.entity';

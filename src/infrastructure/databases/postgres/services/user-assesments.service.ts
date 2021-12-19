@@ -1,6 +1,6 @@
 import { Inject } from '@nestjs/common';
 import { USER_ASSESMENT_REPOSITORY } from 'src/infrastructure/constants/repository.constant';
-import { UserAssesments } from '../models';
+import { Assesments, Subjects, UserAssesments } from '../models';
 import { BaseService } from './base.service';
 
 export class UserAssesmentServices extends BaseService {
@@ -9,5 +9,27 @@ export class UserAssesmentServices extends BaseService {
     private readonly userAssesmentsRepository: typeof UserAssesments,
   ) {
     super(userAssesmentsRepository);
+  }
+
+  public async findLastUserAssesment(userId: number) {
+    return this.findAll({
+      include: [
+        {
+          model: Assesments,
+          include: [
+            {
+              model: Subjects,
+              order: [
+                ['curriculum_level_id', 'ASC'],
+                ['sequence', 'DESC'],
+              ],
+            },
+          ],
+        },
+      ],
+      where: {
+        userId,
+      },
+    });
   }
 }

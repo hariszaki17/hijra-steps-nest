@@ -11,6 +11,23 @@ const dataChapters = [
   {
     subject_id: 1,
     title: 'Empat perkara yang wajib dipelajari',
+    is_bonus_content: false,
+    is_mandatory: true,
+    sequence: 1,
+  },
+  {
+    subject_id: 1,
+    title: 'Tiga ilmu yang harus diamalkan',
+    is_bonus_content: false,
+    is_mandatory: true,
+    sequence: 2,
+  },
+  {
+    subject_id: 1,
+    title: 'Tiga ilmu yang harus diamalkan 2',
+    is_bonus_content: false,
+    is_mandatory: true,
+    sequence: 1,
   },
 ];
 

@@ -11,8 +11,8 @@ const dataUserLearningSubjects = [
   {
     user_learning_journey_id: 1,
     subject_id: 1,
-    status: 'unlock',
-  },
+    status: 'on_progress',
+  }
 ];
 
 module.exports = {

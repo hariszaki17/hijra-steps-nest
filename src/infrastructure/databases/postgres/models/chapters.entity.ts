@@ -16,6 +16,7 @@ import {
 import { Subjects } from '.';
 import { Assesments } from './assesments.entity';
 import { Topics } from './topics.entity';
+import { UserLearningSubjectChapters } from './user-learning-subject-chapters.entity';
 
 @Table({
   tableName: 'chapters',
@@ -59,6 +60,24 @@ export class Chapters extends Model<Chapters> {
   })
   title: string;
 
+  @Column({
+    type: DataType.BOOLEAN,
+    field: 'is_bonus_content',
+  })
+  isBonusContent: boolean;
+
+  @Column({
+    type: DataType.INTEGER,
+    field: 'sequence',
+  })
+  sequence: number;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    field: 'is_mandatory',
+  })
+  isMandatory: boolean;
+
   // Override Sequelize Annotations createdAt, updatedAt and deletedAt
   @CreatedAt
   @Column({
@@ -93,5 +112,8 @@ export class Chapters extends Model<Chapters> {
   assesments: Assesments;
 
   @HasMany(() => Topics)
-  topics: Topics;
+  topics: Topics[];
+
+  @HasMany(() => UserLearningSubjectChapters)
+  userLearningSubjectChapters: UserLearningSubjectChapters[];
 }
