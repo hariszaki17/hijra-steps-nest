@@ -16,14 +16,11 @@ const checkChapterStatus = (chapter: Chapters, subjectStatus: string) => {
   const ulscIsExist = chapter.userLearningSubjectChapters[0];
 
   if (!ulscIsExist) return 'locked';
-  console.log(chapter.id, '<><><>');
 
   const isAllCompleted: boolean = chapter.topics.every((topic) => {
     const allTopicStatus = topic.userLearningSubjectChapterTopics.every(
       (ulsct) => ulsct.status === 'completed',
     );
-
-    console.log(allTopicStatus, 'LPLP', unlockedTopic, topicCount);
     return allTopicStatus && unlockedTopic === topicCount;
   });
   if (isAllCompleted && topicCount) return 'completed';

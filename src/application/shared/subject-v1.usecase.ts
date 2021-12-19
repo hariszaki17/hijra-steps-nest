@@ -33,7 +33,6 @@ export class SubjectV1UseCase {
 
     const [uljs]: UserLearningJourney[] =
       await this.userLearningJourneyService.findAll({ where: { userId } });
-    console.log(uljs, userId, subjectId, 'WLWLWLWL');
 
     const ulss: UserLearningSubjects[] =
       await this.userLearningSubjectService.findAll({
